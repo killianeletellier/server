@@ -18,6 +18,7 @@ use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Mail\Provider\IManager as IMailManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
@@ -67,6 +68,9 @@ class IMipPluginTest extends TestCase {
 	/** @var EventComparisonService|MockObject */
 	private $eventComparisonService;
 
+	/** @var MailManager|MockObject */
+	private $mailManager;
+
 	protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
 		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
@@ -107,6 +111,8 @@ class IMipPluginTest extends TestCase {
 
 		$this->eventComparisonService = $this->createMock(EventComparisonService::class);
 
+		$this->mailManager = $this->createMock(IMailManager::class);
+
 		$this->plugin = new IMipPlugin(
 			$this->config,
 			$this->mailer,
@@ -115,7 +121,8 @@ class IMipPluginTest extends TestCase {
 			$this->defaults,
 			$this->userSession,
 			$this->service,
-			$this->eventComparisonService
+			$this->eventComparisonService,
+			$this->mailManager,
 		);
 	}
 

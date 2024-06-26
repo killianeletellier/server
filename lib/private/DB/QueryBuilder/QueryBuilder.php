@@ -1323,4 +1323,10 @@ class QueryBuilder implements IQueryBuilder {
 
 		return $this->helper->quoteColumnName($alias);
 	}
+
+	public function runAcrossAllShards() {
+		// noop
+		return $this;
+	}
+
 }

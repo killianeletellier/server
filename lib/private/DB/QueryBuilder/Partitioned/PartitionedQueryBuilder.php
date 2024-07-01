@@ -230,9 +230,15 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 	}
 
 	public function execute() {
-		$this->applySelects();
-		foreach ($this->splitQueries as $split) {
-			$split->query->setParameters($this->getParameters(), $this->getParameterTypes());
+		if ($this->isWrite) {
+			if (count($this->splitQueries)) {
+				throw new InvalidPartitionedQueryException("Partitioning write queries isn't supported");
+			}
+		} else {
+			$this->applySelects();
+			foreach ($this->splitQueries as $split) {
+				$split->query->setParameters($this->getParameters(), $this->getParameterTypes());
+			}
 		}
 		$result = parent::execute();
 		if ($result instanceof IResult && count($this->splitQueries) > 0) {
@@ -246,12 +252,4 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 		$this->applySelects();
 		return parent::getSQL();
 	}
-		if ($this->isWrite) {
-			if (count($this->splitQueries)) {
-				throw new InvalidPartitionedQueryException("Partitioning write queries isn't supported");
-			}
-		} else {
-			$this->applySelects();
-			foreach ($this->splitQueries as $split) {
-				$split->query->setParameters($this->getParameters(), $this->getParameterTypes());
-			}
+}

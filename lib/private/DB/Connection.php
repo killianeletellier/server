@@ -25,6 +25,7 @@ use OC\DB\QueryBuilder\Partitioned\PartitionSplit;
 use OC\DB\QueryBuilder\Partitioned\PartitionedQueryBuilder;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OC\DB\QueryBuilder\Sharded\HashShardMapper;
+use OC\DB\QueryBuilder\Sharded\RoundRobinShardMapper;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\SystemConfig;
@@ -126,7 +127,7 @@ class Connection extends PrimaryReadReplicaConnection {
 
 		// todo: only allow specific, pre-defined shard configurations, the current config exists for easy testing setup
 		$this->shards = array_map(function(array $config) {
-			$shardMapperClass = $config['mapper'] ?? HashShardMapper::class;
+			$shardMapperClass = $config['mapper'] ?? RoundRobinShardMapper::class;
 			$shardMapper = Server::get($shardMapperClass);
 			if (!$shardMapper instanceof IShardMapper) {
 				throw new \Exception("Invalid shard mapper: $shardMapperClass");

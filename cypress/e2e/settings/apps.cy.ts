@@ -34,6 +34,10 @@ describe('Settings: App management', { testIsolation: true }, () => {
 
 		// I am logged in as the admin
 		cy.login(admin)
+
+		// Intercept the apps list request
+		cy.intercept('GET', '*/settings/apps/list').as('fetchAppsList')
+
 		// I open the Apps management
 		cy.visit('/settings/apps')
 	})

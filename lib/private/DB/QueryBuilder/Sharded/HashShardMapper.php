@@ -14,13 +14,7 @@ use OCP\DB\QueryBuilder\Sharded\IShardMapper;
  * Map string key to an int-range by hashing the key
  */
 class HashShardMapper implements IShardMapper {
-	public function __construct(
-		private array $shardCounts
-	) {
-	}
-
-	public function getShardForKey(string $table, string $key): int {
-		$count = $this->shardCounts[$table] ?? 1;
+	public function getShardForKey(string $key, int $count): int {
 		$int = unpack('L', substr(md5($key, true), 0, 4))[1];
 		return $int % $count;
 	}

@@ -24,9 +24,12 @@ use Doctrine\DBAL\Statement;
 use OC\DB\QueryBuilder\Partitioned\PartitionSplit;
 use OC\DB\QueryBuilder\Partitioned\PartitionedQueryBuilder;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OC\DB\QueryBuilder\Sharded\HashShardMapper;
+use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
 use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\Sharded\IShardMapper;
 use OCP\Diagnostics\IEventLogger;
 use OCP\IRequestId;
 use OCP\PreConditionNotMetException;
@@ -76,6 +79,7 @@ class Connection extends PrimaryReadReplicaConnection {
 	protected array $partitions;
 	/** @var ShardDefinition[] */
 	protected array $shards = [];
+	protected ShardConnectionManager $shardConnectionManager;
 
 	/**
 	 * Initializes a new instance of the Connection class.
@@ -101,6 +105,7 @@ class Connection extends PrimaryReadReplicaConnection {
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
 
+		$this->shardConnectionManager = $this->params['shard_connection_manager'];
 		$this->systemConfig = \OC::$server->getSystemConfig();
 		$this->clock = Server::get(ClockInterface::class);
 		$this->logger = Server::get(LoggerInterface::class);
@@ -119,10 +124,21 @@ class Connection extends PrimaryReadReplicaConnection {
 		}
 
 		// todo: only allow specific, pre-defined shard configurations, the current config exists for easy testing setup
-		$shardConfig = $this->systemConfig->getValue('db.sharding', []);
 		$this->shards = array_map(function(array $config) {
-			return new ShardDefinition($config['table'], $config['primary_key'], $config['shard_key'], $config['companion_tables']);
-		}, $shardConfig);
+			$shardMapperClass = $config['mapper'] ?? HashShardMapper::class;
+			$shardMapper = Server::get($shardMapperClass);
+			if (!$shardMapper instanceof IShardMapper) {
+				throw new \Exception("Invalid shard mapper: $shardMapperClass");
+			}
+			return new ShardDefinition(
+				$config['table'],
+				$config['primary_key'],
+				$config['shard_key'],
+				$shardMapper,
+				$config['companion_tables'],
+				$config['shards']
+			);
+		}, $this->params['sharding']);
 		$this->partitions = array_map(function(ShardDefinition $shard) {
 			return array_merge([$shard->table], $shard->companionTables);
 		}, $this->shards);
@@ -184,6 +200,7 @@ class Connection extends PrimaryReadReplicaConnection {
 				$this->systemConfig,
 				$this->logger,
 				$this->shards,
+				$this->shardConnectionManager,
 			);
 			foreach ($this->partitions as $name => $tables) {
 				$partition = new PartitionSplit($name, $tables);

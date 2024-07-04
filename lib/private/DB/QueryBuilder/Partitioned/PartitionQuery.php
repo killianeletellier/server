@@ -44,6 +44,9 @@ class PartitionQuery {
 	 * @throws \OCP\DB\Exception
 	 */
 	public function mergeWith(array $rows): array {
+		if (empty($rows)) {
+			return [];
+		}
 		// strip table/alias from column names
 		$joinFromColumn = preg_replace('/\w+\./', '', $this->joinFromColumn);
 		$joinToColumn = preg_replace('/\w+\./', '', $this->joinToColumn);

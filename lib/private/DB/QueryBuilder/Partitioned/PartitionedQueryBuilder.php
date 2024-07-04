@@ -195,10 +195,10 @@ class PartitionedQueryBuilder extends ShardedQueryBuilder {
 
 	public function andWhere(...$where) {
 		foreach ($this->splitPredicatesByParts($where) as $alias => $predicates) {
-			if ($alias === '') {
-				parent::andWhere(...$predicates);
-			} else {
+			if (isset($this->splitQueries[$alias])) {
 				$this->splitQueries[$alias]->query->andWhere(...$predicates);
+			} else {
+				parent::andWhere(...$predicates);
 			}
 		}
 		return $this;

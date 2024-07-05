@@ -282,11 +282,16 @@ class QueryBuilder implements IQueryBuilder {
 			$connection = $this->connection;
 		}
 
-		return $connection->executeQuery(
-			$this->getSQL(),
-			$this->getParameters(),
-			$this->getParameterTypes(),
-		);
+		try {
+			return $connection->executeQuery(
+				$this->getSQL(),
+				$this->getParameters(),
+				$this->getParameterTypes(),
+			);
+		} catch (DBALException $e) {
+			// query builder never threw wrapped exceptions
+			throw $e->getPrevious();
+		}
 	}
 
 	public function executeStatement(?IDBConnection $connection = null): int {
@@ -299,11 +304,16 @@ class QueryBuilder implements IQueryBuilder {
 			$connection = $this->connection;
 		}
 
-		return $connection->executeStatement(
-			$this->getSQL(),
-			$this->getParameters(),
-			$this->getParameterTypes(),
-		);
+		try {
+			return $connection->executeStatement(
+				$this->getSQL(),
+				$this->getParameters(),
+				$this->getParameterTypes(),
+			);
+		} catch (DBALException $e) {
+			// query builder never threw wrapped exceptions
+			throw $e->getPrevious();
+		}
 	}
 
 

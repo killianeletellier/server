@@ -35,6 +35,12 @@ use OCP\TaskProcessing\Task as OCPTask;
  * @method null|string getErrorMessage()
  * @method setProgress(null|float $progress)
  * @method null|float getProgress()
+ * @method setScheduledAt(int $scheduledAt)
+ * @method int getScheduledAt()
+ * @method setStartedAt(int $startedAt)
+ * @method int getStartedAt()
+ * @method setEndedAt(int $endedAt)
+ * @method int getEndedAt()
  */
 class Task extends Entity {
 	protected $lastUpdated;
@@ -48,6 +54,9 @@ class Task extends Entity {
 	protected $completionExpectedAt;
 	protected $errorMessage;
 	protected $progress;
+	protected $scheduledAt;
+	protected $startedAt;
+	protected $endedAt;
 
 	/**
 	 * @var string[]
@@ -74,6 +83,9 @@ class Task extends Entity {
 		$this->addType('completionExpectedAt', 'datetime');
 		$this->addType('errorMessage', 'string');
 		$this->addType('progress', 'float');
+		$this->addType('scheduleAt', 'integer');
+		$this->addType('startedAt', 'integer');
+		$this->addType('endedAt', 'integer');
 	}
 
 	public function toRow(): array {
@@ -97,6 +109,9 @@ class Task extends Entity {
 			'customId' => $task->getCustomId(),
 			'completionExpectedAt' => $task->getCompletionExpectedAt(),
 			'progress' => $task->getProgress(),
+			'scheduledAt' => $task->getScheduledAt(),
+			'startedAt' => $task->getStartedAt(),
+			'endedAt' => $task->getEndedAt(),
 		]);
 		return $taskEntity;
 	}
@@ -114,6 +129,9 @@ class Task extends Entity {
 		$task->setCompletionExpectedAt($this->getCompletionExpectedAt());
 		$task->setErrorMessage($this->getErrorMessage());
 		$task->setProgress($this->getProgress());
+		$task->setScheduledAt($this->getScheduledAt());
+		$task->setStartedAt($this->getStartedAt());
+		$task->setEndedAt($this->getEndedAt());
 		return $task;
 	}
 }

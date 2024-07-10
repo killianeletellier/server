@@ -186,6 +186,10 @@ class ImageManager {
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
 		}
+
+		if ($key === 'logo') {
+			$this->config->deleteAppValue('theming', 'logoDimensions');
+		}
 	}
 
 	public function updateImage(string $key, string $tmpFile): string {
@@ -257,6 +261,15 @@ class ImageManager {
 		}
 
 		$target->putContent(file_get_contents($tmpFile));
+
+		if ($key === 'logo') {
+			$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
+			if ($newImage === false) {
+				throw new \Exception('Could not read background image, possibly corrupted.');
+			}
+
+			$this->config->setAppValue('theming', 'logoDimensions', imagesx($newImage) . 'x' . imagesy($newImage));
+		}
 
 		return $detectedMimeType;
 	}

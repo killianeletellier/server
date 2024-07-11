@@ -30,7 +30,7 @@
 				</template>
 			</NcAppNavigationItem>
 
-			<NcAppNavigationItem v-if="isAdmin"
+			<NcAppNavigationItem v-if="isAdmin && !isDelegatedAdmin"
 				id="admin"
 				:exact="true"
 				:name="t('settings', 'Admins')"
@@ -158,6 +158,7 @@ const { adminGroup, disabledGroup, userGroups } = useFormatGroups(groups)
 
 /** True if the current user is an administrator */
 const isAdmin = computed(() => store.getters.getServerData.isAdmin)
+const isDelegatedAdmin = computed(() => store.getters.getServerData.isDelegatedAdmin)
 
 /** True if the 'add-group' dialog is open - needed to be able to close it when the group is created */
 const isAddGroupOpen = ref(false)

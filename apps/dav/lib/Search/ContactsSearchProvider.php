@@ -111,7 +111,13 @@ class ContactsSearchProvider implements IFilteringProvider {
 			$subline = $this->generateSubline($vCard);
 			$resourceUrl = $this->getDeepLinkToContactsApp($addressBook['uri'], (string) $vCard->UID);
 
-			return new SearchResultEntry($thumbnailUrl, $title, $subline, $resourceUrl, 'icon-contacts-dark', true);
+			$result = new SearchResultEntry($thumbnailUrl, $title, $subline, $resourceUrl, 'icon-contacts-dark', true);
+			$result->addAttribute("displayName", $title);
+			$result->addAttribute("email", $subline);
+			$result->addAttribute("phoneNumber", (string)$vCard->TEL);
+			$result->addAttribute("uid", $vCard->UID);
+
+			return $result;
 		}, $searchResults);
 
 		return SearchResult::paginated(

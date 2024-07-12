@@ -157,8 +157,13 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 				$calendar = $subscriptionsById[$eventRow['calendarid']];
 			}
 			$resourceUrl = $this->getDeepLinkToCalendarApp($calendar['principaluri'], $calendar['uri'], $eventRow['uri']);
+			$result = new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
 
-			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
+			$dtStart = $component->DTSTART;
+			$startDateTime = new \DateTime($dtStart->getDateTime()->format('U'));
+			$result->addAttribute("createdAt", $this->l10n->l('date', $startDateTime));
+
+			return $result;
 		}, $searchResults);
 
 		return SearchResult::paginated(

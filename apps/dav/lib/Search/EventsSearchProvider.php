@@ -161,7 +161,7 @@ class EventsSearchProvider extends ACalendarSearchProvider implements IFiltering
 
 			$dtStart = $component->DTSTART;
 			$startDateTime = $dtStart->getDateTime()->format('U');
-			$result->addAttribute("createdAt", $this->l10n->l('date', $startDateTime));
+			$result->addAttribute("createdAt", $startDateTime);
 
 			return $result;
 		}, $searchResults);

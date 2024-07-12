@@ -136,6 +136,7 @@ class Connection extends PrimaryReadReplicaConnection {
 			return new ShardDefinition(
 				$config['table'],
 				$config['primary_key'],
+				$config['companion_keys'],
 				$config['shard_key'],
 				$shardMapper,
 				$config['companion_tables'],

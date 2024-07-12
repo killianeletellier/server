@@ -16,6 +16,8 @@ use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\Exceptions\DbalException;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
+use OC\DB\QueryBuilder\Sharded\ShardDefinition;
 use OCP\DB\IPreparedStatement;
 use OCP\DB\IResult;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -243,5 +245,13 @@ class ConnectionAdapter implements IDBConnection {
 		} else {
 			throw new \Exception('Database ' . $platform::class . ' not supported');
 		}
+	}
+
+	public function getShardDefinition(string $name): ?ShardDefinition {
+		return $this->inner->getShardDefinition($name);
+	}
+
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
+		return $this->inner->getCrossShardMoveHelper();
 	}
 }

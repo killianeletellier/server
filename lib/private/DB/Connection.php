@@ -24,6 +24,7 @@ use Doctrine\DBAL\Statement;
 use OC\DB\QueryBuilder\Partitioned\PartitionSplit;
 use OC\DB\QueryBuilder\Partitioned\PartitionedQueryBuilder;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OC\DB\QueryBuilder\Sharded\CrossShardMoveHelper;
 use OC\DB\QueryBuilder\Sharded\HashShardMapper;
 use OC\DB\QueryBuilder\Sharded\RoundRobinShardMapper;
 use OC\DB\QueryBuilder\Sharded\ShardConnectionManager;
@@ -798,5 +799,13 @@ class Connection extends PrimaryReadReplicaConnection {
 
 	private function getConnectionName(): string {
 		return $this->isConnectedToPrimary() ? 'primary' : 'replica';
+	}
+
+	public function getShardDefinition(string $name): ?ShardDefinition {
+		return $this->shards[$name] ?? null;
+	}
+
+	public function getCrossShardMoveHelper(): CrossShardMoveHelper {
+		return new CrossShardMoveHelper($this->shardConnectionManager);
 	}
 }

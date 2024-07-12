@@ -115,7 +115,7 @@ class ContactsSearchProvider implements IFilteringProvider {
 			$result->addAttribute("displayName", $title);
 			$result->addAttribute("email", $subline);
 			$result->addAttribute("phoneNumber", (string)$vCard->TEL);
-			$result->addAttribute("uid", $vCard->UID);
+			$result->addAttribute("uid", (string) $vCard->UID);
 
 			return $result;
 		}, $searchResults);

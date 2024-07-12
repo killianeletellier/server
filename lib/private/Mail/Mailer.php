@@ -299,7 +299,8 @@ class Mailer implements IMailer {
 				break;
 			default:
 				$sendmail = \OCP\Server::get(IBinaryFinder::class)->findBinaryPath('sendmail');
-				if ($sendmail === null) {
+				if ($sendmail === false) {
+					// fallback (though not sure what good it'll do)
 					$sendmail = '/usr/sbin/sendmail';
 				}
 				$binaryPath = $sendmail;

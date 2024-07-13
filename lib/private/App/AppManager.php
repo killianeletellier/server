@@ -875,4 +875,14 @@ class AppManager implements IAppManager {
 
 		$this->config->setSystemValue('defaultapp', join(',', $defaultApps));
 	}
+
+	public function isBackendRequired(string $backend): bool {
+		foreach ($this->appInfos as $appInfo) {
+			if (isset($appInfo['backends'][$backend])) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

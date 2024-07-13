@@ -113,6 +113,9 @@ class InfoParser {
 		if (!array_key_exists('personal-section', $array['settings'])) {
 			$array['settings']['personal-section'] = [];
 		}
+		if (!array_key_exists('backends', $array)) {
+			$array['backends'] = [];
+		}
 
 		if (array_key_exists('types', $array)) {
 			if (is_array($array['types'])) {

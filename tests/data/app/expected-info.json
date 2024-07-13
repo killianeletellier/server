@@ -87,5 +87,8 @@
 		"admin-section": [],
 		"personal": [],
 		"personal-section": []
+	},
+	"backends": {
+		"caldav": ""
 	}
 }

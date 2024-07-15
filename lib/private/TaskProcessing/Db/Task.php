@@ -61,12 +61,12 @@ class Task extends Entity {
 	/**
 	 * @var string[]
 	 */
-	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress'];
+	public static array $columns = ['id', 'last_updated', 'type', 'input', 'output', 'status', 'user_id', 'app_id', 'custom_id', 'completion_expected_at', 'error_message', 'progress', 'scheduled_at', 'started_at', 'ended_at'];
 
 	/**
 	 * @var string[]
 	 */
-	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress'];
+	public static array $fields = ['id', 'lastUpdated', 'type', 'input', 'output', 'status', 'userId', 'appId', 'customId', 'completionExpectedAt', 'errorMessage', 'progress', 'scheduledAt', 'startedAt', 'endedAt'];
 
 
 	public function __construct() {
@@ -83,7 +83,7 @@ class Task extends Entity {
 		$this->addType('completionExpectedAt', 'datetime');
 		$this->addType('errorMessage', 'string');
 		$this->addType('progress', 'float');
-		$this->addType('scheduleAt', 'integer');
+		$this->addType('scheduledAt', 'integer');
 		$this->addType('startedAt', 'integer');
 		$this->addType('endedAt', 'integer');
 	}

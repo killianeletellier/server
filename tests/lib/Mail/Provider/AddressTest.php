@@ -13,8 +13,8 @@ use Test\TestCase;
 
 class AddressTest extends TestCase {
 
-	/** @var Address*/
-	private $address;
+	/** @var Address&MockObject */
+	private Address $address;
 
 	protected function setUp(): void {
 		parent::setUp();

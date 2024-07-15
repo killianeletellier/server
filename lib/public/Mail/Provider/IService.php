@@ -28,15 +28,24 @@ interface IService {
 	public function id(): string;
 
 	/**
-	 * checks or retrieves what capabilites the service has
+	 * checks if a service is able of performing an specific action
 	 *
-	 * @since 30.0.0
+	 * @since 4.0.0
 	 *
-	 * @param string $ability				required ability e.g. 'MessageSend'
+	 * @param string $value					required ability e.g. 'MessageSend'
 	 *
-	 * @return bool|array					true/false if ability is supplied, collection of abilities otherwise
+	 * @return bool							true/false if ability is supplied and found in collection
 	 */
-	public function capable(?string $ability = null): bool | array;
+	public function capable(string $value): bool;
+
+	/**
+	 * retrieves a collection of what actions a service can perfrom
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return array						collection of abilities otherwise empty collection
+	 */
+	public function capabilities(): array;
 
 	/**
 	 * gets the localized human frendly name of this service

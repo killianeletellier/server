@@ -119,11 +119,11 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>|null          collection of all recipient mail address objects
+	 * @param array<int,IAddress>				collection of all recipient mail address objects
 	 */
-	public function getTo(): array | null {
-		// evaluate if data store field exists and return value(s) or null otherwise
-		return (isset($this->data['to'])) ? $this->data['to'] : null;
+	public function getTo(): array {
+		// evaluate if data store field exists and return value(s) or empty collection
+		return (isset($this->data['to'])) ? $this->data['to'] : [];
 	}
 
 	/**
@@ -147,11 +147,11 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>|null          collection of all copied recipient mail address objects
+	 * @param array<int,IAddress>	          collection of all copied recipient mail address objects
 	 */
-	public function getCc(): array | null {
-		// evaluate if data store field exists and return value(s) or null otherwise
-		return (isset($this->data['cc'])) ? $this->data['cc'] : null;
+	public function getCc(): array {
+		// evaluate if data store field exists and return value(s) or empty collection
+		return (isset($this->data['cc'])) ? $this->data['cc'] : [];
 	}
 
 	/**
@@ -175,11 +175,11 @@ class Message implements \OCP\Mail\Provider\IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>|null          collection of all blind copied recipient mail address objects
+	 * @param array<int,IAddress>	           collection of all blind copied recipient mail address objects
 	 */
-	public function getBcc(): array | null {
-		// evaluate if data store field exists and return value(s) or null otherwise
-		return (isset($this->data['bcc'])) ? $this->data['bcc'] : null;
+	public function getBcc(): array {
+		// evaluate if data store field exists and return value(s) or empty collection
+		return (isset($this->data['bcc'])) ? $this->data['bcc'] : [];
 	}
 
 	/**

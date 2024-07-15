@@ -21,16 +21,16 @@ use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var CoordinatorMockObject*/
-	private $coordinator;
-	/** @var ContainerInterfaceMockObject*/
-	private $container;
-	/** @var LoggerInterfaceMockObject*/
-	private $logger;
-	/** @var IProviderMockObject*/
-	private $provider;
-	/** @var IServiceMockObject*/
-	private $service;
+	/** @var Coordinator&MockObject */
+	private Coordinator $coordinator;
+	/** @var ContainerInterface&MockObject */
+	private ContainerInterface $container;
+	/** @var LoggerInterface&MockObject */
+	private LoggerInterface $logger;
+	/** @var IProvider&MockObject */
+	private IProvider $provider;
+	/** @var IService&MockObject */
+	private IService $service;
 
 	protected function setUp(): void {
 		parent::setUp();

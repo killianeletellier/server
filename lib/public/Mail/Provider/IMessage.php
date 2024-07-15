@@ -83,9 +83,9 @@ interface IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>|null			collection of all recipient mail address objects
+	 * @param array<int,IAddress>				collection of all recipient mail address objects
 	 */
-	public function getTo(): array | null;
+	public function getTo(): array;
 
 	/**
 	 * sets the copy to recipient(s) of this message
@@ -103,9 +103,9 @@ interface IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>|null			collection of all copied recipient mail address objects
+	 * @param array<int,IAddress>				collection of all copied recipient mail address objects
 	 */
-	public function getCc(): array | null;
+	public function getCc(): array;
 
 	/**
 	 * sets the blind copy to recipient(s) of this message
@@ -123,9 +123,9 @@ interface IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @param array<int,IAddress>|null			collection of all blind copied recipient mail address objects
+	 * @param array<int,IAddress>				collection of all blind copied recipient mail address objects
 	 */
-	public function getBcc(): array | null;
+	public function getBcc(): array;
 
 	/**
 	 * sets the subject of this message
@@ -226,7 +226,7 @@ interface IMessage {
 	 *
 	 * @since 30.0.0
 	 *
-	 * @return array<int,IAttachment>|null			collection of all mail attachment objects
+	 * @return array<int,IAttachment>			collection of all mail attachment objects
 	 */
-	public function getAttachments(): array | null;
+	public function getAttachments(): array;
 }

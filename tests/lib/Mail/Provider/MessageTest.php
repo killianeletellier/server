@@ -15,16 +15,16 @@ use Test\TestCase;
 
 class MessageTest extends TestCase {
 
-	/** @var Message*/
-	private $message;
-	/** @var Address*/
-	private $address1;
-	/** @var Address*/
-	private $address2;
-	/** @var Attachment*/
-	private $attachment1;
-	/** @var Attachment*/
-	private $attachment2;
+	/** @var Message&MockObject */
+	private Message $message;
+	/** @var Address&MockObject */
+	private Address $address1;
+	/** @var Address&MockObject */
+	private Address $address2;
+	/** @var Attachment&MockObject */
+	private Attachment $attachment1;
+	/** @var Attachment&MockObject */
+	private Attachment $attachment2;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -85,7 +85,7 @@ class MessageTest extends TestCase {
 	public function testTo(): void {
 		
 		// test not set
-		$this->assertNull($this->message->getTo());
+		$this->assertEquals([], $this->message->getTo());
 		// test set by setter single
 		$this->message->setTo($this->address1);
 		$this->assertEquals([$this->address1], $this->message->getTo());
@@ -98,7 +98,7 @@ class MessageTest extends TestCase {
 	public function testCc(): void {
 		
 		// test not set
-		$this->assertNull($this->message->getCc());
+		$this->assertEquals([], $this->message->getCc());
 		// test set by setter single
 		$this->message->setCc($this->address1);
 		$this->assertEquals([$this->address1], $this->message->getCc());
@@ -111,7 +111,7 @@ class MessageTest extends TestCase {
 	public function testBcc(): void {
 		
 		// test not set
-		$this->assertNull($this->message->getBcc());
+		$this->assertEquals([], $this->message->getBcc());
 		// test set by setter single
 		$this->message->setBcc($this->address1);
 		$this->assertEquals([$this->address1], $this->message->getBcc());

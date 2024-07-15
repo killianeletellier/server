@@ -13,8 +13,8 @@ use Test\TestCase;
 
 class AttachmentTest extends TestCase {
 
-	/** @var Attachment*/
-	private $attachment;
+	/** @var Attachment&MockObject */
+	private Attachment $attachment;
 
 	protected function setUp(): void {
 		parent::setUp();
